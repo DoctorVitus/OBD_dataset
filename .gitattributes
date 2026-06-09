@@ -1,0 +1,7 @@
+data/** -text
+results/**/*.png binary
+*.docx binary
+*.xlsx binary
+*.py text eol=lf
+*.md text eol=lf
+*.csv text eol=lf
