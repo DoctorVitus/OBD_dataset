@@ -186,12 +186,20 @@ def save_time_series_figures(results_dir: Path, samples: dict[str, Reservoir]) -
         helper = dashed_helper_line(frame, "Time step(ms)", "Value")
 
         fig, ax = plt.subplots(figsize=(8, 4.5))
-        ax.scatter(frame["Time step(ms)"], frame["Value"], s=5, alpha=0.28)
-        ax.plot(helper["Time step(ms)"], helper["Value"], linestyle="--", linewidth=1.4, color="black")
+        ax.scatter(frame["Time step(ms)"], frame["Value"], s=5, alpha=0.28, label="Sampled observations")
+        ax.plot(
+            helper["Time step(ms)"],
+            helper["Value"],
+            linestyle="--",
+            linewidth=1.4,
+            color="black",
+            label="Binned median trend",
+        )
         ax.set_xlabel("Time step(ms)")
         ax.set_ylabel("Value")
         ax.set_title(f"PID {pid}: {PID_DESCRIPTIONS.get(pid, '')}")
         ax.grid(True, linestyle=":", linewidth=0.5, alpha=0.6)
+        ax.legend(frameon=False, loc="best")
         fig.tight_layout()
         fig.savefig(figure_dir / f"pid_{pid}_scatter.png")
         plt.close(fig)
@@ -205,12 +213,20 @@ def save_pair_figures(results_dir: Path, pair_samples: dict[str, Reservoir]) -> 
         frame = pd.DataFrame(pair_samples["speed_rpm"].items, columns=["Value_speed_10D", "Value_rpm_10C"])
         helper = dashed_helper_line(frame, "Value_speed_10D", "Value_rpm_10C")
         fig, ax = plt.subplots(figsize=(6, 5))
-        ax.scatter(frame["Value_speed_10D"], frame["Value_rpm_10C"], s=5, alpha=0.25)
-        ax.plot(helper["Value_speed_10D"], helper["Value_rpm_10C"], linestyle="--", linewidth=1.4, color="black")
+        ax.scatter(frame["Value_speed_10D"], frame["Value_rpm_10C"], s=5, alpha=0.25, label="Sampled observations")
+        ax.plot(
+            helper["Value_speed_10D"],
+            helper["Value_rpm_10C"],
+            linestyle="--",
+            linewidth=1.4,
+            color="black",
+            label="Binned median trend",
+        )
         ax.set_xlabel("Value (PID 10D Vehicle Speed [km/h])")
         ax.set_ylabel("Value (PID 10C Engine RPM)")
         ax.set_title("Vehicle Speed vs Engine RPM")
         ax.grid(True, linestyle=":", linewidth=0.5, alpha=0.6)
+        ax.legend(frameon=False, loc="best")
         fig.tight_layout()
         fig.savefig(figure_dir / "speed_vs_rpm_scatter.png")
         plt.close(fig)
@@ -219,12 +235,26 @@ def save_pair_figures(results_dir: Path, pair_samples: dict[str, Reservoir]) -> 
         frame = pd.DataFrame(pair_samples["gps_route"].items, columns=["GPS Longitude [degree]", "GPS Latitude [degree]"])
         helper = frame.iloc[:: max(1, len(frame) // 600)]
         fig, ax = plt.subplots(figsize=(6, 6))
-        ax.scatter(frame["GPS Longitude [degree]"], frame["GPS Latitude [degree]"], s=5, alpha=0.24)
-        ax.plot(helper["GPS Longitude [degree]"], helper["GPS Latitude [degree]"], linestyle="--", linewidth=1.0, color="black")
+        ax.scatter(
+            frame["GPS Longitude [degree]"],
+            frame["GPS Latitude [degree]"],
+            s=5,
+            alpha=0.24,
+            label="Sampled GPS observations",
+        )
+        ax.plot(
+            helper["GPS Longitude [degree]"],
+            helper["GPS Latitude [degree]"],
+            linestyle="--",
+            linewidth=1.0,
+            color="black",
+            label="Sampled path guide",
+        )
         ax.set_xlabel("GPS Longitude [degree]")
         ax.set_ylabel("GPS Latitude [degree]")
         ax.set_title("GPS Route Samples")
         ax.grid(True, linestyle=":", linewidth=0.5, alpha=0.6)
+        ax.legend(frameon=False, loc="best")
         fig.tight_layout()
         fig.savefig(figure_dir / "gps_route_scatter.png")
         plt.close(fig)
