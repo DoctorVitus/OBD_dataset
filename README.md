@@ -2,6 +2,12 @@
 
 This repository organizes, analyzes, and visualizes vehicle driving logs collected from an OBD/GPS/accelerometer logger. The raw files are preserved under `data/`, the reproducible analysis code is under `code/`, and generated tables and figures are under `results/`.
 
+### 1. Description
+* Refer to 현대오토에버_기술문서_OBD 데이터 산출물 정의서.docx
+### 2. Source
+* URL : https://aihub.or.kr/aihubdata/data/view.do?currMenu=115&topMenu=100&dataSetSn=277
+<br>
+
 ## Dataset Overview
 
 The dataset contains time-series records from multiple vehicles and driving routes. Each CSV row follows a three-field structure:
